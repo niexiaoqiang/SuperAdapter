@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Superadapter by chenenyu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Superadapter</h1>
+      <h2 class="project-tagline">Adapter(BaseAdapter, RecyclerView.Adapter) wrapperr for android.</h2>
+      <a href="https://github.com/chenenyu/SuperAdapter" class="btn">View on GitHub</a>
+      <a href="https://github.com/chenenyu/SuperAdapter/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/chenenyu/SuperAdapter/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p><img src="https://api.bintray.com/packages/chenenyu/maven/SuperAdapter/images/download.svg" alt="Download"></p>
+
+<h2>
+<a id="chinese-version-中文版" class="anchor" href="#chinese-version-%E4%B8%AD%E6%96%87%E7%89%88" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/chenenyu/SuperAdapter/blob/master/README-zh-rCN.md">Chinese Version 中文版</a>
+</h2>
+
+<h1>
+<a id="superadapter" class="anchor" href="#superadapter" aria-hidden="true"><span class="octicon octicon-link"></span></a>SuperAdapter</h1>
+
+<p><em>Adapter(ListAdapter, RecyclerView.Adapter) wrapper for android.</em></p>
+
+<p><strong>Less code for redundant adapter.</strong> You won't need to write ViewHolder, createView, setTag, getTag, and confuse how to setOnItemClickListener to RecyclerView, etc. SuperAdapter does everything for you! The only thing you really need to do is that implement a method <code>onBind()</code>.  </p>
+
+<h2>
+<a id="android-studio" class="anchor" href="#android-studio" aria-hidden="true"><span class="octicon octicon-link"></span></a>Android Studio:</h2>
+
+<p>In build.gradle:</p>
+
+<p><code>compile 'com.chenenyu.superadapter:superadapter:2.1.0'</code></p>
+
+<h2>
+<a id="eclipse" class="anchor" href="#eclipse" aria-hidden="true"><span class="octicon octicon-link"></span></a>Eclipse:</h2>
+
+<p>Add <a href="https://github.com/chenenyu/SuperAdapter/releases">latest Jar</a> to libs dir manually.</p>
+
+<h2>
+<a id="changelog" class="anchor" href="#changelog" aria-hidden="true"><span class="octicon octicon-link"></span></a>CHANGELOG</h2>
+
+<ul>
+<li>2016/1/13 v2.1.0 </li>
+<li>addHeaderView()/addFooterView() for RecyclerView.Adapter</li>
+</ul>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use</h2>
+
+<p>If a simple adapter, it can be simplified like this:  </p>
+
+<pre><code>public class RecyclerSingleAdapter extends SuperAdapter&lt;String&gt; {
+    public RecyclerSingleAdapter(Context context, List&lt;String&gt; items, int layoutResId) {
+        super(context, items, layoutResId);
+    }
+
+    @Override
+    public void onBind(int viewType, BaseViewHolder holder, int position, String item) {
+        holder.setText(R.id.tv_name, item);
+    }
+}
+</code></pre>
+
+<p>Then:  </p>
+
+<pre><code>mSingleAdapter = new RecyclerSingleAdapter(getContext(), names, R.layout.item_type1);  
+recyclerView.setAdapter(mSingleAdapter);
+</code></pre>
+
+<p>If a complex adapter, it can be simplified like this:  </p>
+
+<pre><code>public class RecyclerMultiAdapter extends SuperAdapter&lt;MockModel&gt; {
+    public RecyclerMultiAdapter(Context context, List&lt;MockModel&gt; items, IMultiItemViewType&lt;MockModel&gt; multiItemViewType) {
+        super(context, items, multiItemViewType);
+    }
+
+    @Override
+    public void onBind(int viewType, BaseViewHolder holder, int position, MockModel item) {
+        switch (viewType) {
+            case 0:
+                holder.setText(R.id.tv_name, item.getName());
+                break;
+            case 1:
+                holder.setText(R.id.tv_name, item.getName());
+                holder.setImageResource(R.id.iv_portrait, R.mipmap.ic_launcher);
+                holder.setText(R.id.tv_age, String.valueOf(item.getAge()));
+                break;
+        }
+    }
+}
+</code></pre>
+
+<p>Then:  </p>
+
+<pre><code>mMultiAdapter = new RecyclerMultiAdapter(getContext(), models, new IMultiItemViewType&lt;MockModel&gt;() {
+    @Override
+    public int getItemViewType(int position, MockModel mockModel) {
+        if (position % 2 == 0) {
+            return 0;
+        }
+        return 1;
+    }
+
+    @Override
+    public int getLayoutId(int viewType) {
+        if (viewType == 0) {
+            return R.layout.item_type1;
+        }
+        return R.layout.item_type2;
+    }
+});
+recyclerView.setAdapter(mMultiAdapter);
+</code></pre>
+
+<p>The usages between AdapterView(ListView, GridView) and RecyclerView are almost the same.</p>
+
+<p>Inspired by Ray.  </p>
+
+<p><strong>Welcome to submit pull requests and open iusses!  : )</strong></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<pre><code>Copyright 2015-2016 chenenyu.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/chenenyu/SuperAdapter">Superadapter</a> is maintained by <a href="https://github.com/chenenyu">chenenyu</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
