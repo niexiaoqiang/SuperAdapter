@@ -17,7 +17,7 @@ import org.byteam.superadapter.demo.fragment.RecyclerViewFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    //你好啊
+    //你好啊哈哈哈哈哈哈
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
